@@ -1,0 +1,319 @@
+<section class="gift-guide-grid">
+  <div class="gift-guide-grid__header">
+    <h2 class="gift-guide-grid__title">{{ section.settings.title }}</h2>
+  </div>
+  <div class="gift-guide-grid__products">
+    {% for block in section.blocks %}
+      {% assign product = all_products[block.settings.product] %}
+      <div class="gift-guide-grid__item" {{ block.shopify_attributes }}>
+        <div class="gift-guide-grid__image-wrap" data-product-handle="{{ product.handle }}">
+          <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+          <div class="gift-guide-grid__overlay">
+            <button class="gift-guide-grid__view-btn" onclick="openPopup('{{ product.handle }}')">
+              Quick View
+            </button>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- POPUP -->
+<div class="gift-popup" id="giftPopup">
+  <div class="gift-popup__overlay" onclick="closePopup()"></div>
+  <div class="gift-popup__content">
+    <button class="gift-popup__close" onclick="closePopup()">✕</button>
+    <div class="gift-popup__inner">
+      <div class="gift-popup__image">
+        <img id="popupImage" src="" alt="">
+      </div>
+      <div class="gift-popup__details">
+        <h3 id="popupTitle"></h3>
+        <p id="popupPrice"></p>
+        <p id="popupDescription"></p>
+        <div id="popupVariants"></div>
+        <button class="gift-popup__atc" id="popupATC">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .gift-guide-grid {
+    padding: 40px;
+  }
+  .gift-guide-grid__title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color: {{ section.settings.title_color }};
+  }
+  .gift-guide-grid__products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .gift-guide-grid__image-wrap {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .gift-guide-grid__image-wrap img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+  }
+  .gift-guide-grid__overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    padding: 16px;
+  }
+  .gift-guide-grid__image-wrap:hover .gift-guide-grid__overlay {
+    opacity: 1;
+  }
+  .gift-guide-grid__view-btn {
+    background: white;
+    color: black;
+    border: none;
+    padding: 10px 24px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  /* POPUP STYLES */
+  .gift-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+  }
+  .gift-popup.active {
+    display: block;
+  }
+  .gift-popup__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+  }
+  .gift-popup__content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    width: 90%;
+    max-width: 800px;
+    padding: 32px;
+    z-index: 10000;
+  }
+  .gift-popup__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  .gift-popup__inner {
+    display: flex;
+    gap: 32px;
+  }
+  .gift-popup__image {
+    flex: 1;
+  }
+  .gift-popup__image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .gift-popup__details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .gift-popup__details h3 {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .gift-popup__details #popupPrice {
+    font-size: 18px;
+    font-weight: bold;
+    color: #666;
+  }
+  .gift-popup__details #popupDescription {
+    font-size: 14px;
+    color: #444;
+  }
+  #popupVariants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .variant-btn {
+    padding: 8px 16px;
+    border: 1px solid #000;
+    background: white;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .variant-btn.selected {
+    background: #000;
+    color: white;
+  }
+  .gift-popup__atc {
+    background: #000;
+    color: white;
+    border: none;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .gift-guide-grid__products {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .gift-popup__inner {
+      flex-direction: column;
+    }
+    .gift-guide-grid {
+      padding: 20px;
+    }
+  }
+</style>
+
+<script>
+  var allProducts = {};
+  {% for block in section.blocks %}
+    {% assign product = all_products[block.settings.product] %}
+    allProducts['{{ product.handle }}'] = {
+      title: {{ product.title | json }},
+      price: {{ product.price | money | json }},
+      description: {{ product.description | strip_html | truncate: 200 | json }},
+      image: '{{ product.featured_image | img_url: "large" }}',
+      variants: [
+        {% for variant in product.variants %}
+          {
+            id: {{ variant.id }},
+            title: {{ variant.title | json }},
+            available: {{ variant.available }}
+          }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ]
+    };
+  {% endfor %}
+
+  function openPopup(handle) {
+    var product = allProducts[handle];
+    if (!product) return;
+
+    document.getElementById('popupImage').src = product.image;
+    document.getElementById('popupTitle').textContent = product.title;
+    document.getElementById('popupPrice').textContent = product.price;
+    document.getElementById('popupDescription').textContent = product.description;
+
+    var variantsHtml = '';
+    var firstVariantId = null;
+    product.variants.forEach(function(variant, index) {
+      if (index === 0) firstVariantId = variant.id;
+      variantsHtml += '<button class="variant-btn' + (index === 0 ? ' selected' : '') + '" data-variant-id="' + variant.id + '" onclick="selectVariant(this)">' + variant.title + '</button>';
+    });
+    document.getElementById('popupVariants').innerHTML = variantsHtml;
+
+    var atcBtn = document.getElementById('popupATC');
+    atcBtn.setAttribute('data-variant-id', firstVariantId);
+
+    document.getElementById('giftPopup').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    document.getElementById('giftPopup').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function selectVariant(btn) {
+    document.querySelectorAll('.variant-btn').forEach(function(b) {
+      b.classList.remove('selected');
+    });
+    btn.classList.add('selected');
+    document.getElementById('popupATC').setAttribute('data-variant-id', btn.getAttribute('data-variant-id'));
+  }
+
+  document.getElementById('popupATC').addEventListener('click', function() {
+    var variantId = this.getAttribute('data-variant-id');
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      closePopup();
+      window.location.href = '/cart';
+    })
+    .catch(function(error) {
+      console.error('Error:', error);
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Gift Guide Grid",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Two rows in the wild"
+    },
+    {
+      "type": "color",
+      "id": "title_color",
+      "label": "Title Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Select Product"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Guide Grid"
+    }
+  ]
+}
+{% endschema %}
