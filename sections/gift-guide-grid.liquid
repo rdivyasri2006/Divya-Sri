@@ -263,7 +263,8 @@
   }
 
   document.getElementById('popupATC').addEventListener('click', function() {
-    var variantId = this.getAttribute('data-variant-id');
+    var selectedBtn=document.querySelector('.varient-btn.selected');
+    var variantTitle = selectedBtn?selectedBtn.textContent:'';
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -271,9 +272,17 @@
     })
     .then(function(response) { return response.json(); })
     .then(function(data) {
-      closePopup();
-      window.location.href = '/cart';
-    })
+      if(variantTitle.includes('Black')&& variantTitle.includes('M')){
+        return fetch('/cart/add.js',{
+          method:'POST',
+          headers:{'Content-Type':application/json'},
+          body:JSON.stringify({id:8782472478910,quantity:1})
+        })
+      }
+      .then(function(){
+        closePopup();
+        window.location.href = '/cart';
+      })
     .catch(function(error) {
       console.error('Error:', error);
     });
