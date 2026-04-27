@@ -263,7 +263,7 @@
   }
 
   document.getElementById('popupATC').addEventListener('click', function() {
-    var variant=this.getAttribute('data-variant-id');
+    var variantId=this.getAttribute('data-variant-id');
     var selectedBtn=document.querySelector('.variant-btn.selected');
     var variantTitle = selectedBtn?selectedBtn.textContent:'';
     fetch('/cart/add.js', {
