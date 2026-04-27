@@ -263,7 +263,7 @@
   }
 
   document.getElementById('popupATC').addEventListener('click', function() {
-    var selectedBtn=document.querySelector('.varient-btn.selected');
+    var selectedBtn=document.querySelector('.variant-btn.selected');
     var variantTitle = selectedBtn?selectedBtn.textContent:'';
     fetch('/cart/add.js', {
       method: 'POST',
@@ -275,7 +275,7 @@
       if(variantTitle.includes('Black')&& variantTitle.includes('M')){
         return fetch('/cart/add.js',{
           method:'POST',
-          headers:{'Content-Type':application/json'},
+          headers:{'Content-Type':'application/json'},
           body:JSON.stringify({id:8782472478910,quantity:1})
         })
       }
