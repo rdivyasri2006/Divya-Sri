@@ -8,7 +8,7 @@
       {% assign product = all_products[block.settings.product] %}
       <div class="gift-guide-grid__item" {{ block.shopify_attributes }}>
         <div class="gift-guide-grid__image-wrap" data-product-handle="{{ product.handle }}">
-          <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}">
+          <img src="{{ product.featured_image | img_url: 'medium' }}" alt="{{ product.title }}" width="" height="">
           <div class="gift-guide-grid__overlay">
             <button class="gift-guide-grid__view-btn" onclick="openPopup('{{ product.handle }}')">
               Quick View
@@ -27,7 +27,7 @@
     <button class="gift-popup__close" onclick="closePopup()">X</button>
     <div class="gift-popup__inner">
       <div class="gift-popup__image">
-        <img id="popupImage" src="" alt="">
+        <img id="popupImage" src="" alt="" width="" height="">
       </div>
       <div class="gift-popup__details">
         <h3 id="popupTitle"></h3>
@@ -41,7 +41,6 @@
 </div>
 
 <style>
-  /* Grid styles */
   .gift-guide-grid {
     padding: 40px;
   }
@@ -91,8 +90,6 @@
     cursor: pointer;
     font-weight: bold;
   }
-
-  /* Popup styles */
   .gift-popup {
     display: none;
     position: fixed;
@@ -191,8 +188,6 @@
     width: 100%;
     margin-top: auto;
   }
-
-  /* Mobile styles */
   @media (max-width: 768px) {
     .gift-guide-grid__products {
       grid-template-columns: repeat(2, 1fr);
@@ -288,7 +283,7 @@
         return fetch('/cart/add.js', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: 8782472478910, quantity: 1 })
+          body: JSON.stringify({ id: 46680865571006, quantity: 1 })
         });
       }
     })
