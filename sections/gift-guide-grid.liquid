@@ -1,3 +1,4 @@
+<!-- Gift Guide Grid Section -->
 <section class="gift-guide-grid">
   <div class="gift-guide-grid__header">
     <h2 class="gift-guide-grid__title">{{ section.settings.title }}</h2>
@@ -19,11 +20,11 @@
   </div>
 </section>
 
-<!-- POPUP -->
+<!-- Popup -->
 <div class="gift-popup" id="giftPopup">
   <div class="gift-popup__overlay" onclick="closePopup()"></div>
   <div class="gift-popup__content">
-    <button class="gift-popup__close" onclick="closePopup()">✕</button>
+    <button class="gift-popup__close" onclick="closePopup()">X</button>
     <div class="gift-popup__inner">
       <div class="gift-popup__image">
         <img id="popupImage" src="" alt="">
@@ -40,6 +41,7 @@
 </div>
 
 <style>
+  /* Grid styles */
   .gift-guide-grid {
     padding: 40px;
   }
@@ -90,7 +92,7 @@
     font-weight: bold;
   }
 
-  /* POPUP STYLES */
+  /* Popup styles */
   .gift-popup {
     display: none;
     position: fixed;
@@ -153,12 +155,12 @@
     font-size: 24px;
     font-weight: bold;
   }
-  .gift-popup__details #popupPrice {
+  #popupPrice {
     font-size: 18px;
     font-weight: bold;
     color: #666;
   }
-  .gift-popup__details #popupDescription {
+  #popupDescription {
     font-size: 14px;
     color: #444;
   }
@@ -190,7 +192,7 @@
     margin-top: auto;
   }
 
-  /* MOBILE */
+  /* Mobile styles */
   @media (max-width: 768px) {
     .gift-guide-grid__products {
       grid-template-columns: repeat(2, 1fr);
@@ -205,13 +207,15 @@
 </style>
 
 <script>
+  /* Store all products data */
   var allProducts = {};
+
   {% for block in section.blocks %}
     {% assign product = all_products[block.settings.product] %}
     allProducts['{{ product.handle }}'] = {
-      title: {{ product.title | json }},
-      price: {{ product.price | money | json }},
-      description: {{ product.description | strip_html | truncate: 200 | json }},
+      title: '{{ product.title | escape }}',
+      price: '{{ product.price | money }}',
+      description: '{{ product.description | strip_html | truncate: 200 | escape }}',
       image: '{{ product.featured_image | img_url: "large" }}',
       variants: [
         {% for variant in product.variants %}
@@ -225,6 +229,7 @@
     };
   {% endfor %}
 
+  /* Open popup with product data */
   function openPopup(handle) {
     var product = allProducts[handle];
     if (!product) return;
@@ -249,11 +254,13 @@
     document.body.style.overflow = 'hidden';
   }
 
+  /* Close popup */
   function closePopup() {
     document.getElementById('giftPopup').classList.remove('active');
     document.body.style.overflow = '';
   }
 
+  /* Select variant */
   function selectVariant(btn) {
     document.querySelectorAll('.variant-btn').forEach(function(b) {
       b.classList.remove('selected');
@@ -262,9 +269,18 @@
     document.getElementById('popupATC').setAttribute('data-variant-id', btn.getAttribute('data-variant-id'));
   }
 
+  /* Add to cart */
   document.getElementById('popupATC').addEventListener('click', function() {
+<<<<<<< HEAD
     var selectedBtn=document.querySelector('.varient-btn.selected');
     var variantTitle = selectedBtn?selectedBtn.textContent:'';
+=======
+    var variantId = this.getAttribute('data-variant-id');
+    var selectedBtn = document.querySelector('.variant-btn.selected');
+    var variantTitle = selectedBtn ? selectedBtn.textContent : '';
+
+    /* Add main product to cart */
+>>>>>>> 6e95e6d5168dfa901b9946b22631b135f3c7d74b
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -272,6 +288,7 @@
     })
     .then(function(response) { return response.json(); })
     .then(function(data) {
+<<<<<<< HEAD
       if(variantTitle.includes('Black')&& variantTitle.includes('M')){
         return fetch('/cart/add.js',{
           method:'POST',
@@ -283,6 +300,21 @@
         closePopup();
         window.location.href = '/cart';
       })
+=======
+      /* Auto add Soft Winter Jacket if Black and M selected */
+      if (variantTitle.includes('Black') && variantTitle.includes('M')) {
+        return fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: 8782472478910, quantity: 1 })
+        });
+      }
+    })
+    .then(function() {
+      closePopup();
+      window.location.href = '/cart';
+    })
+>>>>>>> 6e95e6d5168dfa901b9946b22631b135f3c7d74b
     .catch(function(error) {
       console.error('Error:', error);
     });
@@ -297,7 +329,7 @@
       "type": "text",
       "id": "title",
       "label": "Section Title",
-      "default": "Two rows in the wild"
+      "default": "Tisso vison in the wild"
     },
     {
       "type": "color",
