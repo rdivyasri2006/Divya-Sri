@@ -1,9 +1,14 @@
+<!-- Gift Guide Banner Section -->
 <section class="gift-guide-banner" style="background-color: {{ section.settings.bg_color }}">
+
+  <!-- Top Bar -->
   <div class="gg-topbar">
-    <span class="gg-topbar__logo">{{section.settings.logo_text}}</span>
-    <span class="gg-topbar__tagline">{{section.settings.tagline_text}}</span>
-    <a href="#" class="gg-topbar__btn">{{section.settings.choose_gift_text}}<span class="gg-arrow">→</span></a>
+    <span class="gg-topbar__logo">{{ section.settings.logo_text }}</span>
+    <span class="gg-topbar__tagline">{{ section.settings.tagline_text }}</span>
+    <a href="{{ section.settings.choose_gift_link }}" class="gg-topbar__btn">{{ section.settings.choose_gift_text }}</a>
   </div>
+
+  <!-- Main Content -->
   <div class="gift-guide-banner__content">
     <h1 class="gift-guide-banner__title">{{ section.settings.title }}</h1>
     <p class="gift-guide-banner__description">{{ section.settings.description }}</p>
@@ -11,29 +16,59 @@
       {{ section.settings.button_text }}
     </a>
   </div>
-  <div class="gg-ticker">
-    <div class="gg-ticker__track">
-      <span>{{section.settings.ticker_text}}</span>
-      <span>{{section.settings.ticker_text}}</span>
-      <span>{{section.settings.ticker_text}}</span>
-    </div>
+
+  <!-- Bottom Text -->
+  <div class="gg-bottom">
+    <p>{{ section.settings.bottom_text }}</p>
   </div>
-      
+
 </section>
 
 <style>
+  /* Banner */
   .gift-guide-banner {
     position: relative;
-    padding: 60px 40px;
-    min-height: 400px;
-    display: flex;
-    align-items: center;
     background-image: url('{{ section.settings.bg_image | img_url: "master" }}');
     background-size: cover;
     background-position: center;
+    font-family: sans-serif;
   }
+
+  /* Top Bar */
+  .gg-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    border-bottom: 1px solid #ddd;
+  }
+  .gg-topbar__logo {
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+  }
+  .gg-topbar__tagline {
+    font-size: 14px;
+    color: {{ section.settings.text_color }};
+  }
+  .gg-topbar__btn {
+    background-color: #FFD700;
+    color: #000;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: transform 0.3s ease;
+  }
+  .gg-topbar__btn:hover {
+    transform: translateX(5px);
+  }
+
+  /* Main Content */
   .gift-guide-banner__content {
-    max-width: 500px;
+    padding: 60px 40px;
+    max-width: 400px;
   }
   .gift-guide-banner__title {
     font-size: 48px;
@@ -42,9 +77,10 @@
     color: {{ section.settings.text_color }};
   }
   .gift-guide-banner__description {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 24px;
     color: {{ section.settings.text_color }};
+    line-height: 1.6;
   }
   .gift-guide-banner__button {
     display: inline-block;
@@ -53,28 +89,37 @@
     color: {{ section.settings.button_text_color }};
     text-decoration: none;
     font-weight: bold;
+    transition: transform 0.3s ease;
   }
-  .gg-ticker{
-    overflow:hidden;
-    border-top:1px solid #000;
-    padding:8px 0;
-    background:#fff;
+  .gift-guide-banner__button:hover {
+    transform: translateX(5px);
   }
-  .gg-ticker__track{
-    display:flex;
-    white-space:nowrap;
-    animation:tickerScroll 18s linear infinite;
+
+  /* Bottom */
+  .gg-bottom {
+    text-align: center;
+    padding: 12px 40px;
+    border-top: 1px solid #ddd;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
   }
-  .gg-ticker__track span{
-    font-size:11px;
-    font-weight:600;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    padding-right:60px;
-  }
-  @keyframes tickerScroll{
-    0%{transform:translateX(0);}
-    100%{transform:translateX(-33.33%);}
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .gg-topbar {
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .gift-guide-banner__content {
+      padding: 40px 20px;
+    }
+    .gift-guide-banner__title {
+      font-size: 32px;
+    }
   }
 </style>
 
@@ -91,7 +136,30 @@
       "type": "color",
       "id": "bg_color",
       "label": "Background Color",
-      "default": "#f5f5f5"
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "tagline_text",
+      "label": "Tagline",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "choose_gift_text",
+      "label": "Choose Gift Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "choose_gift_link",
+      "label": "Choose Gift Button Link"
     },
     {
       "type": "text",
@@ -103,7 +171,7 @@
       "type": "textarea",
       "id": "description",
       "label": "Description",
-      "default": "Find the perfect gift for everyone on your list"
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
     },
     {
       "type": "text",
@@ -117,6 +185,18 @@
       "label": "Button Link"
     },
     {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Bottom Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
       "type": "color",
       "id": "button_color",
       "label": "Button Color",
@@ -127,18 +207,6 @@
       "id": "button_text_color",
       "label": "Button Text Color",
       "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#000000"
-    },
-    {
-      "type":"text",
-      "id":"ticker_text",
-      "label":"Ticker Text",
-      "default":"SUSTAINABLE,ETHICALLY MADE CLOTHES IN SIZE XXS TO 4XL"
     }
   ],
   "presets": [
