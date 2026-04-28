@@ -1,31 +1,20 @@
-<section class="gift-guide-banner">
+<!-- Gift Guide Banner Section -->
+<section class="gift-guide-banner" style="background-color: {{ section.settings.bg_color }}">
 
   <!-- Top Bar -->
   <div class="gg-topbar">
     <span class="gg-topbar__logo">{{ section.settings.logo_text }}</span>
     <span class="gg-topbar__tagline">{{ section.settings.tagline_text }}</span>
-    <a href="{{ section.settings.choose_gift_link }}" class="gg-topbar__btn">
-      {{ section.settings.choose_gift_text }} &rarr;
-    </a>
+    <a href="{{ section.settings.choose_gift_link }}" class="gg-topbar__btn">{{ section.settings.choose_gift_text }}</a>
   </div>
 
-  <!-- Hero Area -->
-  <div class="gg-hero">
-    {% if section.settings.bg_image %}
-      <img 
-        src="{{ section.settings.bg_image | image_url: width: 1400 }}" 
-        alt="Banner Background" 
-        class="gg-hero__bg-img"
-      >
-    {% endif %}
-
-    <div class="gg-hero__content">
-      <h1 class="gg-hero__title">{{ section.settings.title }}</h1>
-      <p class="gg-hero__desc">{{ section.settings.description }}</p>
-      <a href="{{ section.settings.button_link }}" class="gg-hero__btn">
-        {{ section.settings.button_text }} &rarr;
-      </a>
-    </div>
+  <!-- Main Content -->
+  <div class="gift-guide-banner__content">
+    <h1 class="gift-guide-banner__title">{{ section.settings.title }}</h1>
+    <p class="gift-guide-banner__description">{{ section.settings.description }}</p>
+    <a href="{{ section.settings.button_link }}" class="gift-guide-banner__button">
+      {{ section.settings.button_text }}
+    </a>
   </div>
 
   <!-- Bottom Text -->
@@ -36,168 +25,196 @@
 </section>
 
 <style>
-
-* { box-sizing: border-box; }
-
-.gift-guide-banner {
-  font-family: sans-serif;
-  background: #fff;
-  width: 100%;
-}
-
-/* Top Bar */
-.gg-topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 40px;
-  border-bottom: 1px solid #ddd;
-  background: #fff;
-}
-
-.gg-topbar__logo {
-  font-weight: 700;
-  font-size: 13px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: #000;
-}
-
-.gg-topbar__tagline {
-  font-size: 13px;
-  color: #444;
-}
-
-.gg-topbar__btn {
-  background: #FFD700;
-  padding: 10px 20px;
-  text-decoration: none;
-  color: #000;
-  font-weight: 700;
-  font-size: 13px;
-  transition: letter-spacing 0.3s ease;
-}
-
-.gg-topbar__btn:hover {
-  letter-spacing: 2px;
-}
-
-/* Hero */
-.gg-hero {
-  position: relative;
-  width: 100%;
-  min-height: 420px;
-  overflow: hidden;
-  background: #f5f5f5;
-}
-
-.gg-hero__bg-img {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 65%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-/* White fade over image so left text is readable */
-.gg-hero::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0;
-  width: 55%;
-  height: 100%;
-  background: linear-gradient(to right, #f5f5f5 70%, transparent);
-  z-index: 1;
-}
-
-.gg-hero__content {
-  position: relative;
-  z-index: 2;
-  padding: 60px 40px;
-  max-width: 400px;
-}
-
-.gg-hero__title {
-  font-size: 46px;
-  font-weight: 900;
-  line-height: 1.1;
-  margin: 0 0 16px;
-  color: #000;
-}
-
-.gg-hero__desc {
-  font-size: 13px;
-  line-height: 1.7;
-  color: #333;
-  margin: 0 0 28px;
-}
-
-.gg-hero__btn {
-  display: inline-block;
-  background: #000;
-  color: #fff;
-  padding: 13px 28px;
-  font-weight: 700;
-  font-size: 13px;
-  text-decoration: none;
-  transition: letter-spacing 0.3s ease;
-}
-
-.gg-hero__btn:hover {
-  letter-spacing: 2px;
-}
-
-/* Bottom */
-.gg-bottom {
-  text-align: center;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  font-size: 10px;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: #555;
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-  .gg-topbar {
-    padding: 12px 20px;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  .gg-topbar__tagline {
-    display: none;
-  }
-
-  .gg-hero {
-    min-height: auto;
-  }
-
-  .gg-hero__bg-img {
+  /* Banner */
+  .gift-guide-banner {
     position: relative;
-    width: 100%;
-    height: 220px;
-    top: auto;
-    right: auto;
+    background-color:{{section.settings.bg_color}};
+    background-image:url('{{section.settings.bg_image|img_url:"master"}}');
+    background-size:auto;
+    background-position:center top;
+    background-repeat:no-repeat;
+    font-family: sans-serif;
   }
 
-  .gg-hero::after {
-    display: none;
+  /* Top Bar */
+  .gg-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    border-bottom: 1px solid #ddd;
+  }
+  .gg-topbar__logo {
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
+  }
+  .gg-topbar__tagline {
+    font-size: 14px;
+    color: {{ section.settings.text_color }};
+  }
+  .gg-topbar__btn {
+    background-color: #FFD700;
+    color: #000;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    transition: transform 0.3s ease;
+  }
+  .gg-topbar__btn:hover {
+    transform: translateX(5px);
   }
 
-  .gg-hero__content {
-    padding: 30px 20px;
-    max-width: 100%;
+  /* Main Content */
+  .gift-guide-banner__content {
+    padding: 60px 40px;
+    max-width: 400px;
+  }
+  .gift-guide-banner__title {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: {{ section.settings.text_color }};
+  }
+  .gift-guide-banner__description {
+    font-size: 14px;
+    margin-bottom: 24px;
+    color: {{ section.settings.text_color }};
+    line-height: 1.6;
+  }
+  .gift-guide-banner__button {
+    display: inline-block;
+    padding: 12px 32px;
+    background-color: {{ section.settings.button_color }};
+    color: {{ section.settings.button_text_color }};
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+  }
+  .gift-guide-banner__button:hover {
+    transform: translateX(5px);
+  }
+
+  /* Bottom */
+  .gg-bottom {
     text-align: center;
+    padding: 12px 40px;
+    border-top: 1px solid #ddd;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: {{ section.settings.text_color }};
   }
 
-  .gg-hero__title {
-    font-size: 32px;
+  /* Mobile */
+  @media (max-width: 768px) {
+    .gg-topbar {
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px 20px;
+      text-align: center;
+    }
+    .gift-guide-banner__content {
+      padding: 40px 20px;
+    }
+    .gift-guide-banner__title {
+      font-size: 32px;
+    }
   }
-}
-
 </style>
+
+{% schema %}
+{
+  "name": "Gift Guide Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "bg_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo Text",
+      "default": "TISSO VISON"
+    },
+    {
+      "type": "text",
+      "id": "tagline_text",
+      "label": "Tagline",
+      "default": "Find the ideal gift for your loved ones."
+    },
+    {
+      "type": "text",
+      "id": "choose_gift_text",
+      "label": "Choose Gift Button Text",
+      "default": "CHOOSE GIFT"
+    },
+    {
+      "type": "url",
+      "id": "choose_gift_link",
+      "label": "Choose Gift Button Link"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "The Gift Guide"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "SHOP NOW"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "bottom_text",
+      "label": "Bottom Text",
+      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Button Text Color",
+      "default": "#ffffff"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Gift Guide Banner"
+    }
+  ]
+}
+{% endschema %}
