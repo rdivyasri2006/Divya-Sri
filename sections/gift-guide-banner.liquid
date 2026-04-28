@@ -1,23 +1,60 @@
-<!-- Gift Guide Banner Section -->
-<section class="gift-guide-banner" style="background-color: {{ section.settings.bg_color }}">
+<section class="gift-guide-banner">
 
-  <!-- Top Bar -->
+  <!-- TOP BAR -->
   <div class="gg-topbar">
     <span class="gg-topbar__logo">{{ section.settings.logo_text }}</span>
     <span class="gg-topbar__tagline">{{ section.settings.tagline_text }}</span>
-    <a href="{{ section.settings.choose_gift_link }}" class="gg-topbar__btn">{{ section.settings.choose_gift_text }}</a>
-  </div>
-
-  <!-- Main Content -->
-  <div class="gift-guide-banner__content">
-    <h1 class="gift-guide-banner__title">{{ section.settings.title }}</h1>
-    <p class="gift-guide-banner__description">{{ section.settings.description }}</p>
-    <a href="{{ section.settings.button_link }}" class="gift-guide-banner__button">
-      {{ section.settings.button_text }}
+    <a href="{{ section.settings.choose_gift_link }}" class="gg-topbar__btn">
+      {{ section.settings.choose_gift_text }} →
     </a>
   </div>
 
-  <!-- Bottom Text -->
+  <!-- DESKTOP + TABLET -->
+  <div class="gg-hero gg-hero--desktop">
+    {% if section.settings.bg_image %}
+      <img 
+        src="{{ section.settings.bg_image | image_url: width: 1600 }}" 
+        alt="Banner"
+        class="gg-hero__bg-img"
+      >
+    {% endif %}
+
+    <div class="gg-hero__content">
+      <h1 class="gg-hero__title">{{ section.settings.title }}</h1>
+      <p class="gg-hero__desc">{{ section.settings.description }}</p>
+      <a href="{{ section.settings.button_link }}" class="gg-hero__btn">
+        {{ section.settings.button_text }} →
+      </a>
+    </div>
+  </div>
+
+  <!-- MOBILE -->
+  <div class="gg-hero gg-hero--mobile">
+
+    <div class="gg-hero__top-text">
+      <h1 class="gg-hero__title">{{ section.settings.title }}</h1>
+      <p class="gg-hero__desc">{{ section.settings.description }}</p>
+    </div>
+
+    <div class="gg-hero__image-wrap">
+      {% if section.settings.bg_image %}
+        <img 
+          src="{{ section.settings.bg_image | image_url: width: 800 }}" 
+          alt="Banner"
+          class="gg-hero__bg-img"
+        >
+      {% endif %}
+
+      <div class="gg-hero__btn-overlay">
+        <a href="{{ section.settings.button_link }}" class="gg-hero__btn">
+          {{ section.settings.button_text }}
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM TEXT -->
   <div class="gg-bottom">
     <p>{{ section.settings.bottom_text }}</p>
   </div>
@@ -25,195 +62,197 @@
 </section>
 
 <style>
-  /* Banner */
-  .gift-guide-banner {
-    position: relative;
-    background-color: {{section.settings.by_color}};
-    background-image: url('{{section.settings.bg_image|img_url:"master"}}');
-    background-size: cover;
-    background-position:center-top;
-    font-family: sans-serif;
+
+/* RESET */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.gift-guide-banner {
+  width: 100%;
+  background: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* TOP BAR */
+.gg-topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 14px 40px;
+}
+
+.gg-topbar__logo {
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.gg-topbar__tagline {
+  text-align: center;
+  font-size: 13px;
+}
+
+.gg-topbar__btn {
+  justify-self: end;
+  background: #FFD700;
+  padding: 10px 18px;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #000;
+  transition: 0.3s;
+}
+
+.gg-topbar__btn:hover {
+  letter-spacing: 2px;
+}
+
+/* DESKTOP */
+.gg-hero--desktop {
+  position: relative;
+  height: 520px;
+  display: block;
+}
+
+.gg-hero--mobile {
+  display: none;
+}
+
+.gg-hero__bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gg-hero__content {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  max-width: 480px;
+}
+
+.gg-hero__title {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.gg-hero__desc {
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.gg-hero__btn {
+  background: #000;
+  color: #fff;
+  padding: 12px 22px;
+  text-decoration: none;
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.gg-hero__btn:hover {
+  letter-spacing: 2px;
+}
+
+/* BOTTOM TEXT */
+.gg-bottom {
+  text-align: center;
+  padding: 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  border-top: 1px solid #ddd;
+}
+
+/* TABLET */
+@media (max-width: 1024px) {
+  .gg-hero--desktop {
+    height: 420px;
   }
 
-  /* Top Bar */
-  .gg-topbar {
+  .gg-hero__content {
+    left: 30px;
+    bottom: 30px;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+
+  .gg-hero--desktop {
+    display: none;
+  }
+
+  .gg-hero--mobile {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 40px;
-    border-bottom: 1px solid #ddd;
+    flex-direction: column;
   }
-  .gg-topbar__logo {
-    font-weight: bold;
-    font-size: 16px;
-    text-transform: uppercase;
-    color: {{ section.settings.text_color }};
+
+  .gg-topbar {
+    grid-template-columns: 1fr 1fr;
+    padding: 14px 20px;
   }
+
   .gg-topbar__tagline {
-    font-size: 14px;
-    color: {{ section.settings.text_color }};
-  }
-  .gg-topbar__btn {
-    background-color: #FFD700;
-    color: #000;
-    padding: 10px 20px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-    transition: transform 0.3s ease;
-  }
-  .gg-topbar__btn:hover {
-    transform: translateX(5px);
+    display: none;
   }
 
-  /* Main Content */
-  .gift-guide-banner__content {
-    padding: 60px 40px;
-    max-width: 400px;
-  }
-  .gift-guide-banner__title {
-    font-size: 48px;
-    font-weight: bold;
-    margin-bottom: 16px;
-    color: {{ section.settings.text_color }};
-  }
-  .gift-guide-banner__description {
-    font-size: 14px;
-    margin-bottom: 24px;
-    color: {{ section.settings.text_color }};
-    line-height: 1.6;
-  }
-  .gift-guide-banner__button {
-    display: inline-block;
-    padding: 12px 32px;
-    background-color: {{ section.settings.button_color }};
-    color: {{ section.settings.button_text_color }};
-    text-decoration: none;
-    font-weight: bold;
-    transition: transform 0.3s ease;
-  }
-  .gift-guide-banner__button:hover {
-    transform: translateX(5px);
-  }
-
-  /* Bottom */
-  .gg-bottom {
+  /* TEXT TOP */
+  .gg-hero__top-text {
+    padding: 20px;
     text-align: center;
-    padding: 12px 40px;
-    border-top: 1px solid #ddd;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: {{ section.settings.text_color }};
   }
 
-  /* Mobile */
-  @media (max-width: 768px) {
-    .gg-topbar {
-      flex-direction: column;
-      gap: 10px;
-      padding: 16px 20px;
-      text-align: center;
-    }
-    .gift-guide-banner__content {
-      padding: 40px 20px;
-    }
-    .gift-guide-banner__title {
-      font-size: 32px;
-    }
+  .gg-hero__top-text .gg-hero__title {
+    font-size: 28px;
   }
+
+  .gg-hero__top-text .gg-hero__desc {
+    font-size: 14px;
+  }
+
+  /* IMAGE */
+  .gg-hero__image-wrap {
+    position: relative;
+    height: 300px;
+  }
+
+  .gg-hero__image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* CENTER BUTTON INSIDE IMAGE */
+  .gg-hero__btn-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+}
+
 </style>
 
 {% schema %}
 {
   "name": "Gift Guide Banner",
   "settings": [
-    {
-      "type": "image_picker",
-      "id": "bg_image",
-      "label": "Background Image"
-    },
-    {
-      "type": "color",
-      "id": "bg_color",
-      "label": "Background Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "text",
-      "id": "logo_text",
-      "label": "Logo Text",
-      "default": "TISSO VISON"
-    },
-    {
-      "type": "text",
-      "id": "tagline_text",
-      "label": "Tagline",
-      "default": "Find the ideal gift for your loved ones."
-    },
-    {
-      "type": "text",
-      "id": "choose_gift_text",
-      "label": "Choose Gift Button Text",
-      "default": "CHOOSE GIFT"
-    },
-    {
-      "type": "url",
-      "id": "choose_gift_link",
-      "label": "Choose Gift Button Link"
-    },
-    {
-      "type": "text",
-      "id": "title",
-      "label": "Title",
-      "default": "The Gift Guide"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season."
-    },
-    {
-      "type": "text",
-      "id": "button_text",
-      "label": "Button Text",
-      "default": "SHOP NOW"
-    },
-    {
-      "type": "url",
-      "id": "button_link",
-      "label": "Button Link"
-    },
-    {
-      "type": "text",
-      "id": "bottom_text",
-      "label": "Bottom Text",
-      "default": "SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "button_color",
-      "label": "Button Color",
-      "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "button_text_color",
-      "label": "Button Text Color",
-      "default": "#ffffff"
-    }
+    { "type": "image_picker", "id": "bg_image", "label": "Background Image" },
+    { "type": "text", "id": "logo_text", "label": "Logo", "default": "TISSO VISION" },
+    { "type": "text", "id": "tagline_text", "label": "Tagline", "default": "Find the ideal gift for your loved ones." },
+    { "type": "text", "id": "choose_gift_text", "label": "Button Text", "default": "CHOOSE GIFT" },
+    { "type": "url", "id": "choose_gift_link", "label": "Button Link" },
+    { "type": "text", "id": "title", "label": "Title", "default": "The Gift Guide" },
+    { "type": "textarea", "id": "description", "label": "Description" },
+    { "type": "text", "id": "button_text", "label": "Shop Button", "default": "SHOP NOW" },
+    { "type": "url", "id": "button_link", "label": "Shop Link" },
+    { "type": "text", "id": "bottom_text", "label": "Bottom Text" }
   ],
   "presets": [
-    {
-      "name": "Gift Guide Banner"
-    }
+    { "name": "Gift Guide Banner" }
   ]
 }
 {% endschema %}
