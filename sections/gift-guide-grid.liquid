@@ -41,7 +41,6 @@
 </div>
 
 <style>
-  /* Grid styles */
   .gift-guide-grid {
     padding: 40px;
   }
@@ -91,8 +90,6 @@
     cursor: pointer;
     font-weight: bold;
   }
-
-  /* Popup styles */
   .gift-popup {
     display: none;
     position: fixed;
@@ -191,8 +188,6 @@
     width: 100%;
     margin-top: auto;
   }
-
-  /* Mobile styles */
   @media (max-width: 768px) {
     .gift-guide-grid__products {
       grid-template-columns: repeat(2, 1fr);
@@ -271,16 +266,11 @@
 
   /* Add to cart */
   document.getElementById('popupATC').addEventListener('click', function() {
-<<<<<<< HEAD
-    var selectedBtn=document.querySelector('.varient-btn.selected');
-    var variantTitle = selectedBtn?selectedBtn.textContent:'';
-=======
     var variantId = this.getAttribute('data-variant-id');
     var selectedBtn = document.querySelector('.variant-btn.selected');
     var variantTitle = selectedBtn ? selectedBtn.textContent : '';
 
     /* Add main product to cart */
->>>>>>> 6e95e6d5168dfa901b9946b22631b135f3c7d74b
     fetch('/cart/add.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -288,19 +278,6 @@
     })
     .then(function(response) { return response.json(); })
     .then(function(data) {
-<<<<<<< HEAD
-      if(variantTitle.includes('Black')&& variantTitle.includes('M')){
-        return fetch('/cart/add.js',{
-          method:'POST',
-          headers:{'Content-Type':application/json'},
-          body:JSON.stringify({id:8782472478910,quantity:1})
-        })
-      }
-      .then(function(){
-        closePopup();
-        window.location.href = '/cart';
-      })
-=======
       /* Auto add Soft Winter Jacket if Black and M selected */
       if (variantTitle.includes('Black') && variantTitle.includes('M')) {
         return fetch('/cart/add.js', {
@@ -314,7 +291,6 @@
       closePopup();
       window.location.href = '/cart';
     })
->>>>>>> 6e95e6d5168dfa901b9946b22631b135f3c7d74b
     .catch(function(error) {
       console.error('Error:', error);
     });
