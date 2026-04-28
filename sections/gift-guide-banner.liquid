@@ -1,6 +1,12 @@
 <!-- Gift Guide Banner Section -->
-<section class="gift-guide-banner" style="background-color: {{ section.settings.bg_color }}">
-
+<section class="gift-guide-banner"
+  style="
+    {% if section.settings.bg_image %}
+      background-image: url('{{ section.settings.bg_image | image_url }}');
+    {% else %}
+      background-color: {{ section.settings.bg_color }};
+    {% endif %}
+  ">
   <!-- Top Bar -->
   <div class="gg-topbar">
     <span class="gg-topbar__logo">{{ section.settings.logo_text }}</span>
@@ -27,9 +33,13 @@
 <style>
   /* Banner */
   .gift-guide-banner {
+    min-height:500px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
     position: relative;
-    background-color:{{section.settings.bg_color}};
-    background-image:url('{{section.settings.bg_image|img_url:"master"}}');
+    background-color:#ffffff;
+    background-image:url('{{section.settings.bg_image|image_url}}');
     background-size:auto;
     background-position:center top;
     background-repeat:repeat;
