@@ -9,8 +9,16 @@
     </a>
   </div>
 
-  <!-- Hero Area with background illustration -->
-  <div class="gg-hero" {% if section.settings.bg_image %}style="background-image: url('{{ section.settings.bg_image | image_url: width: 1400 }}');"{% endif %}>
+  <!-- Hero Area -->
+  <div class="gg-hero">
+    {% if section.settings.bg_image %}
+      <img 
+        src="{{ section.settings.bg_image | image_url: width: 1400 }}" 
+        alt="Banner Background" 
+        class="gg-hero__bg-img"
+      >
+    {% endif %}
+
     <div class="gg-hero__content">
       <h1 class="gg-hero__title">{{ section.settings.title }}</h1>
       <p class="gg-hero__desc">{{ section.settings.description }}</p>
@@ -28,18 +36,23 @@
 </section>
 
 <style>
+
+* { box-sizing: border-box; }
+
 .gift-guide-banner {
-  background: #fff;
   font-family: sans-serif;
+  background: #fff;
+  width: 100%;
 }
 
-/* ── Top Bar ── */
+/* Top Bar */
 .gg-topbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 14px 40px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #ddd;
+  background: #fff;
 }
 
 .gg-topbar__logo {
@@ -47,6 +60,7 @@
   font-size: 13px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  color: #000;
 }
 
 .gg-topbar__tagline {
@@ -61,9 +75,6 @@
   color: #000;
   font-weight: 700;
   font-size: 13px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
   transition: letter-spacing 0.3s ease;
 }
 
@@ -71,31 +82,42 @@
   letter-spacing: 2px;
 }
 
-/* ── Hero ── */
+/* Hero */
 .gg-hero {
   position: relative;
+  width: 100%;
   min-height: 420px;
-  background-size: cover;
-  background-position: center right;
-  background-repeat: no-repeat;
-  background-color: #f5f5f5;
-  display: flex;
-  align-items: center;
+  overflow: hidden;
+  background: #f5f5f5;
 }
 
-/* dark-to-transparent gradient so text stays readable */
-.gg-hero::before {
+.gg-hero__bg-img {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 65%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* White fade over image so left text is readable */
+.gg-hero::after {
   content: '';
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to right, rgba(255,255,255,0.92) 38%, rgba(255,255,255,0) 70%);
+  top: 0; left: 0;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(to right, #f5f5f5 70%, transparent);
+  z-index: 1;
 }
 
 .gg-hero__content {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: 60px 40px;
-  max-width: 420px;
+  max-width: 400px;
 }
 
 .gg-hero__title {
@@ -103,6 +125,7 @@
   font-weight: 900;
   line-height: 1.1;
   margin: 0 0 16px;
+  color: #000;
 }
 
 .gg-hero__desc {
@@ -113,9 +136,7 @@
 }
 
 .gg-hero__btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: inline-block;
   background: #000;
   color: #fff;
   padding: 13px 28px;
@@ -129,21 +150,23 @@
   letter-spacing: 2px;
 }
 
-/* ── Bottom Bar ── */
+/* Bottom */
 .gg-bottom {
   text-align: center;
   padding: 10px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid #ddd;
   font-size: 10px;
   letter-spacing: 2.5px;
   text-transform: uppercase;
   color: #555;
 }
 
-/* ── Mobile ── */
+/* Mobile */
 @media (max-width: 768px) {
   .gg-topbar {
     padding: 12px 20px;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   .gg-topbar__tagline {
@@ -151,16 +174,23 @@
   }
 
   .gg-hero {
-    min-height: 320px;
-    background-position: center;
+    min-height: auto;
   }
 
-  .gg-hero::before {
-    background: rgba(255,255,255,0.80);
+  .gg-hero__bg-img {
+    position: relative;
+    width: 100%;
+    height: 220px;
+    top: auto;
+    right: auto;
+  }
+
+  .gg-hero::after {
+    display: none;
   }
 
   .gg-hero__content {
-    padding: 40px 20px;
+    padding: 30px 20px;
     max-width: 100%;
     text-align: center;
   }
@@ -169,4 +199,5 @@
     font-size: 32px;
   }
 }
+
 </style>
