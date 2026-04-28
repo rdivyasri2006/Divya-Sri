@@ -28,11 +28,11 @@
   /* Banner */
   .gift-guide-banner {
     position: relative;
-    background-color:#ffffff;
-    background-image: 
-      linear-gradirnt(#e0e0e0 1px,transparent 1px),
-      linear-gradirnt(90deg,#e0e0e0 1px,transparent 1px);
-    background-size: 40px 40px;
+    background-color:{{section.settings.bg_color}};
+    background-image:url('{{section.settings.bg_image|img_url:"master"}}');
+    background-size:cover;
+    background-position:center top;
+    background-repeat:no-repeat;
     font-family: sans-serif;
   }
 
