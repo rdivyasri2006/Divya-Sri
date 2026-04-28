@@ -13,10 +13,12 @@
   <div class="gg-hero gg-hero--desktop">
     {% if section.settings.bg_image %}
       <img 
-        src="{{ section.settings.bg_image | image_url: width: 1600 }}" 
-        alt="Banner"
-        class="gg-hero__bg-img"
-      >
+  src="{{ section.settings.bg_image | image_url: width: 1800 }}" 
+  alt="Banner Background" 
+  class="gg-hero__bg-img"
+  width="1800"
+  height="1000"
+>
     {% endif %}
 
     <div class="gg-hero__content">
@@ -39,10 +41,11 @@
     <div class="gg-hero__image-wrap">
       {% if section.settings.bg_image %}
         <img 
-          src="{{ section.settings.bg_image | image_url: width: 800 }}" 
-          alt="Banner"
-          class="gg-hero__bg-img"
-        >
+  src="{{ section.settings.bg_image | image_url: width: 1800 }}" 
+  alt="Banner Background" 
+  class="gg-hero__bg-img"
+  width="1800"
+  height="1000">
       {% endif %}
 
       <div class="gg-hero__btn-overlay">
@@ -128,18 +131,18 @@
 
 .gg-hero__content {
   position: absolute;
-  bottom: 40px;
+  bottom: 50px;
   left: 40px;
   max-width: 480px;
 }
 
 .gg-hero__title {
-  font-size: 40px;
+  font-size: 55px;
   margin-bottom: 10px;
 }
 
 .gg-hero__desc {
-  font-size: 14px;
+  font-size: 16px;
   margin-bottom: 20px;
 }
 
